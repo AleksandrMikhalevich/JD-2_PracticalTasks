@@ -1,0 +1,28 @@
+create table people.person
+(
+    id             int auto_increment
+        primary key,
+    age            int       null,
+    salary         double    null,
+    passport       char(10)  null,
+    address        char(200) null,
+    dateOfBirthday date      null,
+    dateTimeCreate datetime  null,
+    timeToLaunch   time      null,
+    letter         text      null,
+    constraint Person_id_uindex
+        unique (id)
+);
+
+insert into person(id, age, salary, passport, address, dateOfBirthday, dateTimeCreate, timeToLaunch, letter)
+    VALUES(1, 20, 2000, 'MP11111111', 'Minsk', '2002-01-01',  now(), null, null);
+insert into person(id, age, salary, passport, address, dateOfBirthday, dateTimeCreate, timeToLaunch, letter)
+    VALUES(2, 21, 2100, 'AB22222222', 'Brest', '2001-01-02', now(), null, null);
+insert into person(id, age, salary, passport, address, dateOfBirthday, dateTimeCreate, timeToLaunch, letter)
+    VALUES(3, 22, 2200, 'BM33333333', 'Vitebsk', '2000-01-03', now(), null, null);
+insert into person(id, age, salary, passport, address, dateOfBirthday, dateTimeCreate, timeToLaunch, letter)
+    VALUES(4, 23, 2300, 'HB44444444', 'Gomel', '1999-01-04', now(), null, null);
+insert into person(id, age, salary, passport, address, dateOfBirthday, dateTimeCreate, timeToLaunch, letter)
+    VALUES(5, 24, 2400, 'KH55555555', 'Grodno', '1998-01-05', now(), null, null);
+
+select * from person where age > 21 order by dateTimeCreate;
