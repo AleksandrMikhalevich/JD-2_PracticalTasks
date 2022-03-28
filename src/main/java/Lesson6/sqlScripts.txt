@@ -1,0 +1,157 @@
+# ======================================================
+# PRIMARY KEY
+CREATE TABLE users
+(
+    id   INT         NOT NULL,
+    name VARCHAR(20) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+# ======================================================
+# Foreign KEY
+CREATE TABLE `order`
+(
+    order_id INT NOT NULL,
+    user_id  INT,
+    PRIMARY KEY (order_id),
+    FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
+insert into users(id, name)
+VALUES (1, 'User1');
+insert into users(id, name)
+VALUES (2, 'User2');
+insert into users(id, name)
+VALUES (3, 'User3');
+
+insert into `order`(order_id, user_id)
+VALUES (1, 3);
+insert into `order`(order_id, user_id)
+VALUES (2, 2);
+insert into `order`(order_id, user_id)
+VALUES (3, 1);
+
+# ======================================================
+# ORDER BY
+SELECT *
+FROM users
+ORDER BY name;
+
+SELECT *
+FROM users
+ORDER BY name DESC;
+
+# ======================================================
+# JOIN
+SELECT order_id, lesson_6.users.name
+FROM `order`
+         INNER JOIN users ON `order`.user_id = users.id;
+
+# ======================================================
+# Self JOIN
+SELECT customer_a.name AS CustomerName1, customer_b.name AS CustomerName2, customer_a.city
+FROM customer_a,
+     customer_b
+WHERE customer_a.id <> customer_b.id
+  AND customer_a.city = customer_b.city
+ORDER BY customer_a.city;
+
+# ======================================================
+# UNION
+SELECT name
+FROM customer_a
+UNION
+SELECT name
+FROM customer_b;
+
+# ======================================================
+# LIKE(wildcards)
+SELECT *
+FROM users
+WHERE name LIKE '%1%';
+
+SELECT *
+FROM users
+WHERE name LIKE 'User_';
+
+# ======================================================
+# ALIASES
+SELECT users.name AS alias_name
+FROM users;
+
+# ======================================================
+# INSERT INTO SELECT
+INSERT INTO customer_a
+SELECT *
+FROM customer_b
+WHERE city = 'Vitebsk';
+
+# ======================================================
+# DELETE - DML, TRUNCATE - DDL
+DELETE
+FROM customer_b
+WHERE name = 'User4b';
+
+TRUNCATE TABLE `order`;
+
+# ======================================================
+# Odd/Even
+SELECT *
+FROM customer_a
+WHERE id % 2 != 0;
+
+# ======================================================
+# Duplicates
+SELECT email, COUNT(email)
+FROM customer_a
+GROUP BY email
+HAVING COUNT(email) > 1;
+
+# ======================================================
+# Add 1 day
+SELECT DATE_ADD(date, interval 1 day) as new_date
+FROM customer_a
+WHERE name = 'User1a';
+
+# ======================================================
+# Unique names
+SELECT DISTINCT name
+FROM customer_a;
+
+# ======================================================
+# Average(numbers only)
+SELECT AVG(id)
+FROM customer_a;
+
+# ======================================================
+# Above average(numbers only)
+SELECT *
+FROM customer_a
+WHERE id > (SELECT AVG(id) FROM customer_a);
+
+# ======================================================
+# Search with null
+SELECT lesson_6.customer_b.name
+FROM customer_b
+WHERE customer_b.email IS NULL;
+
+# ======================================================
+# Replace
+UPDATE customer_b
+SET orders =
+        CASE
+            WHEN orders = 0 THEN 2
+            ELSE 3
+            END;
+
+UPDATE customer_b
+SET orders =
+        IF(orders = 0, 2, 3);
+
+# ======================================================
+# Concatenation
+SELECT CONCAT(name, city) AS new_field FROM customer_a;
+
+# ======================================================
+# Rename
+ALTER TABLE `order` RENAME orders;
