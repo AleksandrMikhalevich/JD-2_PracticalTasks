@@ -1,0 +1,120 @@
+# ======================================================
+# Таблица "Задачи"
+
+create table lesson_7.tasks
+(
+    task_id        int auto_increment,
+    name           char(50) null,
+    time           int      null,
+    cost           int      null,
+    task_project   int      null,
+    task_performer int      null,
+    constraint tasks_task_id_uindex
+        unique (task_id)
+);
+
+alter table lesson_7.tasks
+    add primary key (task_id);
+
+# ======================================================
+# Таблица "Проекты"
+
+create table lesson_7.projects
+(
+    project_id        int auto_increment,
+    name              char(50) null,
+    time              int      null,
+    difficulty        char(50) null,
+    project_performer int      null,
+    constraint projects_project_id_uindex
+        unique (project_id)
+);
+
+alter table lesson_7.projects
+    add primary key (project_id);
+
+# ======================================================
+# Таблица "Исполнители"
+
+create table lesson_7.performers
+(
+    performer_id int      not null,
+    surname      char(50) null,
+    first_name   char(50) null,
+    second_name  char(50) null,
+    constraint performers_performer_id_uindex
+        unique (performer_id)
+);
+
+alter table lesson_7.performers
+    add primary key (performer_id);
+
+# ======================================================
+# Добавление внешних ключей
+
+alter table tasks
+    add constraint tasks_performers_id_fk
+        foreign key (task_performer) references performers (performer_id);
+
+alter table projects
+    add constraint project_performers_id_fk
+        foreign key (project_performer) references performers (performer_id);
+
+alter table tasks
+    add constraint tasks_projects_id_fk
+        foreign key (task_project) references projects (project_id);
+
+# ======================================================
+# Заполнение таблиц
+
+insert into performers(performer_id, surname, first_name, second_name)
+VALUES (1, 'Смирнов', 'Сергей', 'Сергеевич');
+insert into performers(performer_id, surname, first_name, second_name)
+VALUES (2, 'Федоров', 'Сергей', 'Юрьевич');
+insert into performers(performer_id, surname, first_name, second_name)
+VALUES (3, 'Петров', 'Петя', 'Сергеевич');
+
+insert into projects(project_id, name, time, difficulty, project_performer)
+VALUES (1, 'Проект 1', 2, 'Сложный', 1);
+insert into projects(project_id, name, time, difficulty, project_performer)
+VALUES (2, 'Проект 2', 1, 'Легкий', 2);
+
+insert into tasks(task_id, name, time, cost, task_project, task_performer)
+VALUES (1, 'Задача 1', 4, 2000, 1, 3);
+insert into tasks(task_id, name, time, cost, task_project, task_performer)
+VALUES (2, 'Задача 2', 8, 2500, 1, 1);
+insert into tasks(task_id, name, time, cost, task_project, task_performer)
+VALUES (3, 'Задача 3', 4, 1000, 1, 1);
+insert into tasks(task_id, name, time, cost, task_project, task_performer)
+VALUES (4, 'Задача 4', 5, 3000, 2, 2);
+insert into tasks(task_id, name, time, cost, task_project, task_performer)
+VALUES (5, 'Задача 5', 3, 500, 2, 3);
+
+# ======================================================
+# Вывод на экран всех задач у проектов со сложностью "Сложный"
+
+select tasks.name
+from tasks
+         join projects on project_id = tasks.task_project
+where difficulty = 'Сложный';
+
+# ======================================================
+# Вывод на экран цены каждого проекта (сумма цен всех задач проекта)
+
+select sum(cost)
+from tasks
+group by task_project;
+
+# ======================================================
+# Вывод на экран проектов с ценой больше 4000
+
+select sum(cost) > 4000, projects.name
+from tasks
+         join projects on project_id = tasks.task_project;
+
+# ======================================================
+# Изменение названия "Проект 1" на "Проект 25"
+
+update projects
+set name = 'Проект 25'
+where name = 'Проект 1';
