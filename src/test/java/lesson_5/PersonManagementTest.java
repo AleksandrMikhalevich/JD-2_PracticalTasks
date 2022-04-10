@@ -1,7 +1,5 @@
 package lesson_5;
 
-import lesson_2.lesson_5.Person;
-import lesson_2.lesson_5.PersonManagement;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
