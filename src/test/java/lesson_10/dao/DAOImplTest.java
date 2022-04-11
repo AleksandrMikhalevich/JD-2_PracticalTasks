@@ -1,9 +1,9 @@
 package lesson_10.dao;
 
+import lesson_10.cons.SQLConsumer;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -33,39 +33,36 @@ class DAOImplTest {
     }
 
     @Test
-    void select() throws SQLException {
-        try (ResultSet resultSet = STATEMENT.executeQuery("select * from car")) {
-            while (resultSet.next()) {
-                System.out.println(resultSet.getInt(1) + " "
-                        + resultSet.getString(2));
-            }
-        }
+    void shouldSelectFromDBTest() throws SQLException {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        DAO dao = daoFactory.getImplThroughDAO();
+        SQLConsumer<Statement> select = dao.select("select * from car");
+        select.accept(STATEMENT);
     }
 
     @Test
-    void update() {
-        try {
-            STATEMENT.executeUpdate("update car set price = 13000 where id = 1");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    void shouldUpdateDBTest() throws SQLException {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        DAO dao = daoFactory.getImplThroughDAO();
+        SQLConsumer<Statement> update = dao.update("update car set price = 13000 where id = 1");
+        update.accept(STATEMENT);
     }
 
     @Test
-    void delete() {
-        try {
-            STATEMENT.executeUpdate("delete from car where id = 2");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    void shouldDeleteFromDBTest() throws SQLException {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        DAO dao = daoFactory.getImplThroughDAO();
+        SQLConsumer<Statement> delete = dao.delete("delete from car where id = 2");
+        delete.accept(STATEMENT);
     }
 
     @Test
-    void insert() {
-        try {
-            STATEMENT.executeUpdate("insert into car(name, color, price) values ('Renault Logan', 'White', 10000)");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    void shouldInsertIntoDBTest() throws SQLException {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        DAO dao = daoFactory.getImplThroughDAO();
+        SQLConsumer<Statement> insert = dao.insert("insert into car(name, color, price) values ('Lada X-ray', 'Red', 12000)");
+        insert.accept(STATEMENT);
+        SQLConsumer<Statement> insert2 = dao.insert("insert into car(name, color, price) values ('Lada Vesta', 'Silver', 10000)");
+        insert2.accept(STATEMENT);
     }
 }
