@@ -8,7 +8,7 @@
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost:3306/lesson_11?createDatabaseIfNotExist=true"/>
+                      value="jdbc:mysql://localhost:3306/lesson_12?createDatabaseIfNotExist=true"/>
             <property name="javax.persistence.jdbc.user" value=""/>
             <property name="javax.persistence.jdbc.password" value=""/>
             <property name="hibernate.dialect.storage.engine" value="innodb"/>
