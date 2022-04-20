@@ -10,6 +10,9 @@
         <class>lesson_12.perConcreteClassMapping.entity.Task</class>
         <class>lesson_12.perConcreteClassMapping.entity.HomeTask</class>
         <class>lesson_12.perConcreteClassMapping.entity.WorkTask</class>
+        <class>lesson_12.perSubclass.entity.Task</class>
+        <class>lesson_12.perSubclass.entity.HomeTask</class>
+        <class>lesson_12.perSubclass.entity.WorkTask</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
             <property name="javax.persistence.jdbc.url"
